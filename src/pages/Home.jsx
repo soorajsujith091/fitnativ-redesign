@@ -45,12 +45,12 @@ export default function Home() {
         </div>
 
         {/* Hero Text */}
-        <div className="relative z-10 text-center w-full px-4 pt-16 md:pt-20 flex flex-col items-center">
+        <div className="relative z-10 text-center w-full px-4 pt-16 md:pt-10 flex flex-col items-center -mt-10 md:-mt-16 lg:-mt-24">
           <Link to="/product/daily-sweet" className="hidden md:inline-flex mb-6 md:mb-8 flex-col md:flex-row items-center gap-2 md:gap-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2.5 md:py-3 rounded-full hover:bg-white/20 transition-colors animate-slide-up">
             <span className="bg-primary-500 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">30% OFF</span>
             <span className="text-white text-xs md:text-sm font-medium tracking-wide">The Sweetest Offer of the Season on Daily Sweet &rarr;</span>
           </Link>
-          <h1 className="font-display text-white text-[64px] sm:text-[80px] md:text-[160px] lg:text-[220px] leading-[0.85] md:leading-[0.8] tracking-tight drop-shadow-lg">
+          <h1 className="font-display text-white text-[64px] sm:text-[80px] md:text-[110px] lg:text-[140px] xl:text-[180px] leading-[0.85] md:leading-[0.8] tracking-tight drop-shadow-lg">
             SWEETNESS <br />
             THAT LOVES YOU.
           </h1>
