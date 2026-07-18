@@ -25,32 +25,7 @@ export const products = [
     images: ['https://fitnativ.in/wp-content/uploads/2023/08/daily-fiber-front-1.png'],
     isFeatured: true
   },
-  {
-    id: 'fit-gut',
-    name: 'Fit Gut – Synbiotic Super Gut Powder',
-    slug: 'fit-gut',
-    price: 899.00,
-    salePrice: null,
-    category: 'Gut Health',
-    flavor: 'Natural',
-    description: 'Probiotic + prebiotic + enzyme blend for total gut support and sustainable weight management.',
-    badges: ['Synbiotic', 'Enzyme Blend', 'Weight Management'],
-    images: ['/fit_gut.png'],
-    isFeatured: true
-  },
-  {
-    id: 'tone-down',
-    name: 'Tone Down – Weight Management Kit',
-    slug: 'tone-down',
-    price: 1299.00,
-    salePrice: null,
-    category: 'Weight Management',
-    flavor: 'Natural',
-    description: 'Daily Prebiotic + Daily Probiotic combo. Natural prebiotic + probiotic combination for weight management support.',
-    badges: ['Combo Kit', 'Weight Management'],
-    images: ['/fit_gut.png'],
-    isFeatured: true
-  },
+
   {
     id: 'k-collagen-blueberry',
     name: 'K-Collagen – Blueberry',

@@ -15,6 +15,7 @@ import Contact from './pages/Contact';
 
 // Components
 import ScrollToTopButton from './components/ScrollToTopButton';
+import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           </main>
           <Footer />
           <ScrollToTopButton />
+          <WhatsAppButton />
         </div>
       </Router>
     </CartProvider>

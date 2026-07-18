@@ -56,7 +56,7 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-[0.2em] mb-8">Products</h4>
             <ul className="space-y-4">
-              {['Daily Sweet', 'Daily Fiber', 'Fit Gut', 'Tone Down'].map(product => (
+              {['Daily Sweet', 'Daily Fiber', 'K-Collagen'].map(product => (
                 <li key={product}>
                   <Link to={`/product/${product.toLowerCase().replace(' ', '-')}`} className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
                     {product}

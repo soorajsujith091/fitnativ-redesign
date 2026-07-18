@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
+import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 
@@ -45,17 +46,55 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={`text-sm tracking-wide font-medium transition-colors ${
-                !scrolled && isHomePage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.name === 'Shop') {
+              return (
+                <div key={link.name} className="relative group">
+                  <Link
+                    to={link.path}
+                    className={`flex items-center gap-1 text-sm tracking-wide font-medium transition-colors ${
+                      !scrolled && isHomePage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    {link.name}
+                    <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                  </Link>
+                  {/* Invisible bridge for hover */}
+                  <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="w-72 bg-white rounded-xl shadow-xl border border-gray-100 p-3 flex flex-col gap-1">
+                      <Link to="/shop" className="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider hover:text-primary-600 transition-colors">
+                        View All Products &rarr;
+                      </Link>
+                      <div className="h-px bg-gray-100 my-1"></div>
+                      {products.map(product => (
+                        <Link
+                          key={product.id}
+                          to={`/product/${product.slug}`}
+                          className="px-4 py-2.5 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors flex items-center gap-3"
+                        >
+                          <div className="w-8 h-8 rounded bg-gray-50 flex items-center justify-center shrink-0">
+                            <img src={product.images[0]} alt={product.name} className="max-w-[80%] max-h-[80%] object-contain mix-blend-multiply" />
+                          </div>
+                          <span className="truncate font-medium">{product.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`text-sm tracking-wide font-medium transition-colors ${
+                  !scrolled && isHomePage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Actions */}

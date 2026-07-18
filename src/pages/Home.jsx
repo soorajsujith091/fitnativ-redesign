@@ -1,16 +1,69 @@
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Calendar, ChevronRight } from 'lucide-react';
 import { products } from '../data/products';
 import { blogPosts } from '../data/blogPosts';
 import { useCart } from '../context/CartContext';
+import CalorieCalculator from '../components/CalorieCalculator';
+
+const heroSlides = [
+  {
+    id: 1,
+    image: '/hero_bg.png',
+    tag: '30% OFF',
+    tagText: 'The Sweetest Offer of the Season on Daily Sweet',
+    link: '/product/daily-sweet',
+    headline: (
+      <>
+        SWEETNESS <br />
+        THAT LOVES YOU.
+      </>
+    )
+  },
+  {
+    id: 2,
+    image: 'https://fitnativ.in/wp-content/uploads/2025/05/healthy-lifestyle-sustained-home-scaled.jpg',
+    tag: 'NEW',
+    tagText: 'Discover the power of our Daily Fiber blend',
+    link: '/product/daily-fiber',
+    headline: (
+      <>
+        NOURISH <br />
+        YOUR GUT.
+      </>
+    )
+  },
+  {
+    id: 3,
+    image: 'https://fitnativ.in/wp-content/uploads/2025/05/athlete-playing-sport-with-hand-drawn-doodles-scaled.jpg',
+    tag: 'TRENDING',
+    tagText: 'Glow from within with K-Collagen',
+    link: '/product/k-collagen-blueberry',
+    headline: (
+      <>
+        BEAUTY <br />
+        & WELLNESS.
+      </>
+    )
+  }
+];
 
 export default function Home() {
   const { addToCart } = useCart();
-  const featuredProducts = products.filter(p => p.isFeatured).slice(0, 3);
+  const featuredProducts = products;
   const scrollerRef = useRef(null);
   const testimonialRef = useRef(null);
   const featuredRef = useRef(null);
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-play for hero slider
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const scrollFeatured = (direction) => {
     if (featuredRef.current) {
@@ -37,23 +90,55 @@ export default function Home() {
     <div className="flex flex-col bg-white overflow-hidden">
 
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[700px] w-full flex items-center justify-center">
-        {/* Background Image */}
-        <div className="absolute inset-0 w-full h-full">
-          <img src="/hero_bg.png" alt="Healthy Active Lifestyle" className="w-full h-full object-cover object-top" />
-          <div className="absolute inset-0 bg-black/10"></div>
-        </div>
+      <section className="relative h-screen min-h-[700px] w-full flex items-center justify-center group overflow-hidden bg-black">
+        
+        {heroSlides.map((slide, index) => (
+          <div
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            }`}
+          >
+            {/* Background Image */}
+            <div className="absolute inset-0 w-full h-full">
+              <img src={slide.image} alt="Hero Slide" className="w-full h-full object-cover object-top" />
+              <div className="absolute inset-0 bg-black/30"></div>
+              {/* Gradient overlay at the top to make the header visible */}
+              <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/70 to-transparent"></div>
+            </div>
 
-        {/* Hero Text */}
-        <div className="relative z-10 text-center w-full px-4 pt-16 md:pt-10 flex flex-col items-center -mt-10 md:-mt-16 lg:-mt-24">
-          <Link to="/product/daily-sweet" className="hidden md:inline-flex mb-6 md:mb-8 flex-col md:flex-row items-center gap-2 md:gap-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2.5 md:py-3 rounded-full hover:bg-white/20 transition-colors animate-slide-up">
-            <span className="bg-primary-500 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">30% OFF</span>
-            <span className="text-white text-xs md:text-sm font-medium tracking-wide">The Sweetest Offer of the Season on Daily Sweet &rarr;</span>
-          </Link>
-          <h1 className="font-display text-white text-[64px] sm:text-[80px] md:text-[110px] lg:text-[140px] xl:text-[180px] leading-[0.85] md:leading-[0.8] tracking-tight drop-shadow-lg">
-            SWEETNESS <br />
-            THAT LOVES YOU.
-          </h1>
+            {/* Hero Text */}
+            <div className="relative z-10 text-center w-full px-4 pt-16 md:pt-10 flex flex-col items-center -mt-10 md:-mt-16 lg:-mt-24 h-full justify-center">
+              <div className={`transition-all duration-700 delay-300 transform ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <Link to={slide.link} className="hidden md:inline-flex mb-6 md:mb-8 flex-col md:flex-row items-center gap-2 md:gap-4 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2.5 md:py-3 rounded-full hover:bg-white/20 transition-colors">
+                  <span className="bg-primary-500 text-white text-[10px] md:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">{slide.tag}</span>
+                  <span className="text-white text-xs md:text-sm font-medium tracking-wide">{slide.tagText} &rarr;</span>
+                </Link>
+              </div>
+              
+              <div className={`transition-all duration-700 delay-500 transform ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+                <h1 className="font-display text-white text-[64px] sm:text-[80px] md:text-[110px] lg:text-[140px] xl:text-[180px] leading-[0.85] md:leading-[0.8] tracking-tight drop-shadow-lg">
+                  {slide.headline}
+                </h1>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Slide Indicators */}
+        <div className="absolute bottom-6 md:bottom-8 right-6 md:right-12 lg:right-16 flex flex-col gap-3 z-20">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`transition-all duration-300 rounded-full ${
+                index === currentSlide
+                  ? 'h-8 w-2.5 bg-white'
+                  : 'h-2.5 w-2.5 bg-white/50 hover:bg-white/80'
+              }`}
+            />
+          ))}
         </div>
 
         {/* Frosted Glass Product Scroller */}
@@ -159,32 +244,25 @@ export default function Home() {
             <h2 className="text-2xl md:text-3xl lg:text-[40px] text-primary-900 tracking-tight">
               Featured Products
             </h2>
-            <div className="flex gap-2">
-              <button onClick={() => scrollFeatured('left')} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-colors shadow-sm">
-                <ArrowLeft size={18} />
-              </button>
-              <button onClick={() => scrollFeatured('right')} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-colors shadow-sm">
-                <ArrowRight size={18} />
-              </button>
-            </div>
+
           </div>
 
-          {/* Horizontal Scroll Container */}
-          <div ref={featuredRef} className="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {/* Grid Container */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 pb-8 md:pb-0">
             
             {/* Intro Card */}
-            <div className="min-w-[240px] md:min-w-[280px] lg:min-w-[320px] max-w-[260px] md:max-w-[340px] shrink-0 snap-start bg-[#E8F3FA] rounded-2xl md:rounded-[24px] p-6 md:p-8 flex flex-col justify-between">
+            <div className="bg-[#E8F3FA] rounded-2xl md:rounded-[24px] p-6 md:p-8 flex flex-col justify-between">
               <p className="text-primary-900 text-lg md:text-[22px] leading-snug tracking-tight pr-2 font-medium">
                 Proprietary blend of natural extracts and more to revitalize and replenish.
               </p>
               <Link to="/shop" className="inline-flex items-center justify-between bg-white text-primary-900 text-[10px] md:text-xs font-semibold px-4 py-2.5 md:px-5 md:py-3 rounded-full hover:shadow-md transition-shadow mt-8 border border-primary-900/10 w-fit gap-3">
-                shop all products <ArrowRight size={14} />
+                shop all <ArrowRight size={14} />
               </Link>
             </div>
 
             {/* Product Cards */}
-            {products.slice(0, 4).map((product, idx) => (
-              <div key={product.id} className="min-w-[220px] md:min-w-[280px] lg:min-w-[320px] max-w-[240px] md:max-w-[340px] shrink-0 snap-start flex flex-col group cursor-pointer">
+            {featuredProducts.map((product, idx) => (
+              <div key={product.id} className="flex flex-col group cursor-pointer">
                 
                 {/* Image Box */}
                 <div className="relative w-full aspect-square bg-[#F8F9FA] rounded-2xl md:rounded-[24px] mb-4 p-4 md:p-8 flex items-center justify-center overflow-hidden">
@@ -210,16 +288,11 @@ export default function Home() {
                   </div>
 
                   {/* Row 2: Flavor and Price */}
-                  <div className="flex items-center justify-between text-xs md:text-[13px] mt-0.5">
+                  <div className="flex items-center justify-between text-xs md:text-[13px] mt-0.5 mb-3">
                     <span className="text-gray-600 truncate mr-2">{product.badges[0]}</span>
                     <span className="text-gray-900 font-semibold shrink-0">₹{product.price}</span>
                   </div>
 
-                  {/* Row 3: Tagline */}
-                  <div className="flex items-center justify-between text-[10px] md:text-[11px] mt-1 mb-3">
-                    <span className="text-gray-500 truncate" title={product.description}>{product.description}</span>
-                  </div>
-                  
                   {/* Row 4: Action */}
                   <button 
                     onClick={(e) => {
@@ -490,32 +563,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Card 2 - Featured Gradient */}
-            <div className="min-w-[300px] lg:min-w-[340px] max-w-[380px] shrink-0 snap-start rounded-3xl p-8 flex flex-col justify-between border border-gray-100 bg-gradient-to-br from-green-50 via-pink-50 to-blue-50">
-              <div>
-                <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-4 block">Fit Gut Patient</span>
-                <p className="text-gray-900 font-medium text-lg leading-snug mb-4">
-                  In the realm of wellness, Fit Gut isn't just a supplement; it's a guardian of my daily health and digestion.
-                </p>
-                <div className="flex items-center gap-1 mb-8">
-                  <span className="text-yellow-400 text-sm">★★★★★</span>
-                  <span className="text-xs font-bold text-gray-900 ml-1">4.8</span>
-                </div>
-              </div>
-              <div className="flex flex-row items-end justify-between w-full">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200">
-                    <img src="https://ui-avatars.com/api/?name=Priya+M&background=random" className="w-full h-full object-cover" alt="User" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xs text-gray-900">Priya M.</h4>
-                    <span className="text-[10px] text-gray-500">Wellness Enthusiast</span>
-                  </div>
-                </div>
-                <span className="text-5xl leading-none text-gray-900 font-serif rotate-180 transform -translate-y-2 inline-block">"</span>
-              </div>
-            </div>
-
             {/* Card 3 */}
             <div className="min-w-[300px] lg:min-w-[340px] max-w-[380px] shrink-0 snap-start bg-[#F9F9F9] rounded-3xl p-8 flex flex-col justify-between border border-gray-100">
               <div>
@@ -623,6 +670,7 @@ export default function Home() {
         </div>
       </section>
 
+      <CalorieCalculator />
     </div>
   );
 }
