@@ -252,7 +252,7 @@ export default function Home() {
             
             {/* Intro Card */}
             <div className="bg-[#E8F3FA] rounded-2xl md:rounded-[24px] p-6 md:p-8 flex flex-col justify-between">
-              <p className="text-primary-900 text-lg md:text-[22px] leading-snug tracking-tight pr-2 font-medium">
+              <p className="text-primary-900 text-sm md:text-[22px] leading-snug tracking-tight pr-2 font-medium">
                 Proprietary blend of natural extracts and more to revitalize and replenish.
               </p>
               <Link to="/shop" className="inline-flex items-center justify-between bg-white text-primary-900 text-[10px] md:text-xs font-semibold px-4 py-2.5 md:px-5 md:py-3 rounded-full hover:shadow-md transition-shadow mt-8 border border-primary-900/10 w-fit gap-3">
@@ -265,16 +265,16 @@ export default function Home() {
               <div key={product.id} className="flex flex-col group cursor-pointer">
                 
                 {/* Image Box */}
-                <div className="relative w-full aspect-square bg-[#F8F9FA] rounded-2xl md:rounded-[24px] mb-4 p-4 md:p-8 flex items-center justify-center overflow-hidden">
+                <div className="relative w-full aspect-square bg-[#F8F9FA] rounded-2xl md:rounded-[24px] mb-4 flex items-center justify-center overflow-hidden">
                   {idx === 0 && (
-                    <div className="absolute top-3 right-3 md:top-5 md:right-5">
+                    <div className="absolute top-3 right-3 md:top-5 md:right-5 z-10">
                       <span className="flex items-center justify-center w-10 h-10 md:w-[52px] md:h-[52px] rounded-full bg-[#D8EFFF] text-primary-900 text-[8px] md:text-[10px] font-bold text-center leading-tight shadow-sm">
                         best<br/>seller
                       </span>
                     </div>
                   )}
-                  <Link to={`/product/${product.slug}`} className="w-full h-full flex items-center justify-center">
-                    <img src={product.images[0]} alt={product.name} className="max-w-[80%] max-h-[90%] object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-500 drop-shadow-sm" />
+                  <Link to={`/product/${product.slug}`} className="w-full h-full block">
+                    <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-500 drop-shadow-sm" />
                   </Link>
                 </div>
 
@@ -307,6 +307,20 @@ export default function Home() {
 
               </div>
             ))}
+            {/* Outro Card */}
+            <div className="relative rounded-2xl md:rounded-[24px] p-6 md:p-8 flex flex-col justify-between overflow-hidden group">
+              <img src="https://fitnativ.in/wp-content/uploads/2025/05/healthy-lifestyle-sustained-home-scaled.jpg" alt="Wellness Journey" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-black/40"></div>
+              
+              <div className="relative z-10 h-full flex flex-col justify-end">
+                <p className="text-white text-sm md:text-[22px] leading-snug tracking-tight pr-2 font-medium drop-shadow-md">
+                  Elevate your wellness journey with our doctor-curated selection.
+                </p>
+                <Link to="/shop" className="inline-flex items-center justify-between bg-white text-primary-900 text-[10px] md:text-xs font-semibold px-4 py-2.5 md:px-5 md:py-3 rounded-full hover:bg-gray-100 transition-colors mt-4 w-fit gap-3 shadow-md">
+                  shop all <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
 
           </div>
         </div>
